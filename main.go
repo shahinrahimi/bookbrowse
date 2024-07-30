@@ -11,7 +11,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"github.com/shahinrahimi/bookbrowse/pkg/author"
 	"github.com/shahinrahimi/bookbrowse/pkg/book"
+	"github.com/shahinrahimi/bookbrowse/pkg/genre"
 	"github.com/shahinrahimi/bookbrowse/store"
 )
 
@@ -41,8 +43,12 @@ func main() {
 
 	// create book handler
 	bh := book.NewHandler(logger, s)
+	// create author handler
+	ah := author.NewHandler(logger, s)
+	// create genre handler
+	gh := genre.NewHandler(logger, s)
 
-	// regiter handler to router
+	// regiter book handler to router
 	router.Methods(http.MethodGet).Subrouter()
 	router.HandleFunc("/books", bh.GetAll)
 	router.HandleFunc("/books/{id}", bh.GetSingle)
@@ -55,6 +61,34 @@ func main() {
 
 	router.Methods(http.MethodDelete).Subrouter()
 	router.HandleFunc("/books/{id}", bh.Delete)
+
+	// register author handler to router
+	router.Methods(http.MethodGet).Subrouter()
+	router.HandleFunc("/authors", ah.GetAll)
+	router.HandleFunc("/authors/{id}", ah.GetSingle)
+
+	router.Methods(http.MethodPost).Subrouter()
+	router.HandleFunc("/authors", ah.Create)
+
+	router.Methods(http.MethodPut).Subrouter()
+	router.HandleFunc("/authors/{id}", ah.Update)
+
+	router.Methods(http.MethodDelete).Subrouter()
+	router.HandleFunc("/authors/{id}", ah.Delete)
+
+	// register genre handler to router
+	router.Methods(http.MethodGet).Subrouter()
+	router.HandleFunc("/genres", gh.GetAll)
+	router.HandleFunc("/genres/{id}", gh.GetSingle)
+
+	router.Methods(http.MethodPost).Subrouter()
+	router.HandleFunc("/genres", gh.Create)
+
+	router.Methods(http.MethodPut).Subrouter()
+	router.HandleFunc("/genres/{id}", gh.Update)
+
+	router.Methods(http.MethodDelete).Subrouter()
+	router.HandleFunc("/genres/{id}", gh.Delete)
 
 	// craete server
 	server := http.Server{
