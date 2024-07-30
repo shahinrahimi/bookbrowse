@@ -3,8 +3,8 @@ package book
 import (
 	"time"
 
-	"github.com/shahinrahimi/bookbrowse/model/author"
-	"github.com/shahinrahimi/bookbrowse/model/genre"
+	"github.com/shahinrahimi/bookbrowse/pkg/author"
+	"github.com/shahinrahimi/bookbrowse/pkg/genre"
 )
 
 type Book struct {
