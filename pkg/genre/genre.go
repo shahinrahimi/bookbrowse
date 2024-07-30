@@ -8,7 +8,7 @@ type Genre struct {
 const (
 	CreateTable string = `CREATE TABLE IF NOT EXISTS genres (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		name TEXT NOT NULL,
+		name TEXT NOT NULL
 	);`
 	SelectAll string = `SELECT id, name FROM genres`
 	Select    string = `SELECT id, name FROM genres WHERE id = ?`

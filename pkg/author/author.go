@@ -12,6 +12,7 @@ const (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		fisrtname TEXT NOT NULL,
 		middlename TEXT,
+		lastname TEXT NOT NULL
 	);`
 	SelectAll string = `SELECT id, firstname, middlename, lastname FROM authors`
 	Select    string = `SELECT id, firstname, middlename, lastname FROM authors WHERE id = ?`
