@@ -4,17 +4,19 @@ import "time"
 
 type Book struct {
 	ID          int       `json:"id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	RateScore   float32   `json:"rate_score"`
-	RateCount   int       `json:"rate_count"`
-	Url         string    `json:"url"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	Title       string    `json:"title" validate:"required"`
+	Description string    `json:"description" validate:"required"`
+	RateScore   float32   `json:"rate_score" validate:"required, gt=0"`
+	RateCount   int       `json:"rate_count" valudate:"required, gt=0"`
+	Url         string    `json:"url" validate:"required"`
+	CreatedAt   time.Time `json:"-"`
+	UpdatedAt   time.Time `json:"-"`
 	Author      Author    `json:"author"`
-	AuthorID    int       `json:"author_id"`
+	AuthorID    int       `json:"author_id" validate:"required"`
 	Geners      []Genre   `json:"genres"`
 }
+
+type KeyBook struct{}
 
 const (
 	CreateTableBooks string = `CREATE TABLE IF NOT EXISTS books (

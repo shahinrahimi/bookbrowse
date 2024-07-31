@@ -2,8 +2,10 @@ package models
 
 type Author struct {
 	ID   int    `json:"id"`
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required"`
 }
+
+type KeyAuthor struct{}
 
 const (
 	CreateTableAuthors string = `CREATE TABLE IF NOT EXISTS authors (

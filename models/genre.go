@@ -2,8 +2,10 @@ package models
 
 type Genre struct {
 	ID   int    `json:"id"`
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required"`
 }
+
+type KeyGenre struct{}
 
 const (
 	CreateTableGenres string = `CREATE TABLE IF NOT EXISTS genres (
