@@ -12,7 +12,7 @@ func (s *SqliteStore) GetGenres() ([]*genre.Genre, error) {
 	genres := []*genre.Genre{}
 	for rows.Next() {
 		var g genre.Genre
-		if err := rows.Scan(&g); err != nil {
+		if err := rows.Scan(g.ToFeilds()...); err != nil {
 			s.logger.Printf("Error scranning rows for a genre: %v", err)
 			continue
 		}

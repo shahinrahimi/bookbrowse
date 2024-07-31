@@ -24,7 +24,7 @@ type Book struct {
 const (
 	CreateTable string = `CREATE TABLE IF NOT EXISTS books (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		title TEXT NOT NULL,
+		title TEXT UNIQUE NOT NULL,
 		description TEXT NOT NULL,
 		rate_score REAL,
 		rate_count INTEGER,
@@ -34,24 +34,27 @@ const (
 		author_id INTEGER,
 		FOREIGN KEY (author_id) REFERENCES authors(id)
 	);`
-	SelectAll string = `SELECT id, title, author, description, rate_scrore, rate_count, url, created_at, updated_at, author_id FROM books`
-	Select    string = `SELECT id, title, author, description, rate_scrore, rate_count, url, created_at, updated_at, author_id FROM books WHERE id = ?`
-	Insert    string = `INSERT INTO books (id, title, author, description, rate_scrore, rate_count, url, created_at, updated_at, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-	Update    string = `UPDATE books SET title = ?, author = ?, description = ?, rate_score = ?, rate_count = ?, created_at ,uptaded_at, author_id = ? WHERE id = ?`
+	SelectAll string = `SELECT id, title, description, rate_scrore, rate_count, url, created_at, updated_at, author_id FROM books`
+	Select    string = `SELECT id, title, description, rate_scrore, rate_count, url, created_at, updated_at, author_id FROM books WHERE id = ?`
+	Insert    string = `INSERT INTO books (title, description, rate_scrore, rate_count, url, created_at, updated_at, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+	Update    string = `UPDATE books SET title = ?, description = ?, rate_score = ?, rate_count = ?, created_at, uptaded_at, author_id = ? WHERE id = ?`
 	Delete    string = `DELETE FROM books WHERE id = ?`
 )
 
-// ToArgs returns id, title, author, description, rate_scrore, rate_count, url, created_at, updated_at, author_id as value
+// ToArgs returns title, description, rate_scrore, rate_count, url, created_at, updated_at, author_id as value
+// use for inserting to DB
 func (b *Book) ToArgs() []interface{} {
-	return []interface{}{b.ID, b.Title, b.Description, b.RateScore, b.RateCount, b.Url, b.CreatedAt, b.UpdatedAt, b.AuthorID}
+	return []interface{}{b.Title, b.Description, b.RateScore, b.RateCount, b.Url, b.CreatedAt, b.UpdatedAt, b.AuthorID}
 }
 
-// ToUpdatedArgs returns title, author, description, rate_scrore, rate_count, url, created_at, updated_at, author_id and id as value
+// ToUpdatedArgs returns title, description, rate_scrore, rate_count, url, created_at, updated_at, author_id and id as value
+// use for updating record in DB
 func (b *Book) ToUpdatedArgs(id int) []interface{} {
 	return []interface{}{b.Title, b.Description, b.RateScore, b.RateCount, b.Url, b.CreatedAt, b.UpdatedAt, b.AuthorID, id}
 }
 
-// ToFeilds returns id, title, author, description, rate_scrore, rate_count, url, created_at, updated_at, author_id as reference
+// ToFeilds returns id, title, description, rate_scrore, rate_count, url, created_at, updated_at, author_id as reference
+// use for scanning from DB
 func (b *Book) ToFeilds() []interface{} {
 	return []interface{}{&b.ID, &b.Title, &b.Description, &b.RateScore, &b.RateCount, &b.Url, &b.CreatedAt, &b.UpdatedAt, &b.AuthorID}
 }

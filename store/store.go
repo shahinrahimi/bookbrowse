@@ -37,18 +37,41 @@ func NewSqliteStore(logger *log.Logger) *SqliteStore {
 	}
 }
 
+// NewTestSqliteStore will open connection to DB @ memory
+func NewTestSqliteStore(logger *log.Logger) *SqliteStore {
+	// create connection to db
+	db, err := sql.Open("sqlite3", ":memory:")
+	if err != nil {
+		logger.Fatalf("Unable to connect to DB: %v", err)
+	}
+	logger.Println("DB Connected!")
+
+	return &SqliteStore{
+		logger: logger,
+		db:     db,
+	}
+}
+
 // Init create tables for books, authors and genre if not exists
 // if error raised the function will panic
-func (s *SqliteStore) Init() {
+func (s *SqliteStore) Init() error {
 	if _, err := s.db.Exec(book.CreateTable); err != nil {
-		s.logger.Panicf("error creating books table: %v", err)
+		s.logger.Printf("error creating books table: %v", err)
+		return err
 	}
 	if _, err := s.db.Exec(author.CreateTable); err != nil {
-		s.logger.Panicf("error creating authors table: %v", err)
+		s.logger.Printf("error creating authors table: %v", err)
+		return err
 	}
 	if _, err := s.db.Exec(genre.CreateTable); err != nil {
-		s.logger.Panicf("error creating genres table: %v", err)
+		s.logger.Printf("error creating genres table: %v", err)
+		return err
 	}
+	if _, err := s.db.Exec(genre.CreateTableBookGenre); err != nil {
+		s.logger.Printf("error creating book_genres: %v", err)
+		return err
+	}
+	return nil
 }
 
 func (s *SqliteStore) CloseDB() error {

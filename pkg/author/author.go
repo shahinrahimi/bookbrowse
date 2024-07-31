@@ -1,37 +1,36 @@
 package author
 
 type Author struct {
-	ID         int    `json:"id"`
-	Firstname  string `json:"firstname"`
-	Middlename string `json:"middlename"`
-	Lastname   string `json:"lastname"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 const (
 	CreateTable string = `CREATE TABLE IF NOT EXISTS authors (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		fisrtname TEXT NOT NULL,
-		middlename TEXT,
-		lastname TEXT NOT NULL
+		name TEXT UNIQUE NOT NULL
 	);`
-	SelectAll string = `SELECT id, firstname, middlename, lastname FROM authors`
-	Select    string = `SELECT id, firstname, middlename, lastname FROM authors WHERE id = ?`
-	Insert    string = `INSERT INTO authors (id, fisrname, middlename, lastname) VALUES (?, ?, ?, ?)`
-	Update    string = `UPDATE authors SET firstname = ?, middlename = ?, lastname = ? WHERE id = ?`
+	SelectAll string = `SELECT id, name FROM authors`
+	Select    string = `SELECT id, name FROM authors WHERE id = ?`
+	Insert    string = `INSERT INTO authors (name) VALUES (?)`
+	Update    string = `UPDATE authors SET name = ? WHERE id = ?`
 	Delete    string = `DELETE FROM authors WHERE id = ?`
 )
 
-// ToArgs returns id, firstname, middlename, lastname as value
+// ToArgs returns name as value
+// use for inserting to DB
 func (a *Author) ToArgs() []interface{} {
-	return []interface{}{a.ID, a.Firstname, a.Middlename, a.Lastname}
+	return []interface{}{a.Name}
 }
 
-// ToUpdatedArgs returns firstname, middlename, lastname and id as reference
+// ToUpdatedArgs returns name and id as reference
+// use for updating record in DB
 func (a *Author) ToUpdatedArgs(id int) []interface{} {
-	return []interface{}{a.Firstname, a.Middlename, a.Lastname, id}
+	return []interface{}{a.Name, id}
 }
 
-// ToFields returns id, firstname, middlename, lastname as  reference
+// ToFields returns id, anme as reference
+// use for scanning from DB
 func (a *Author) ToFeilds() []interface{} {
-	return []interface{}{&a.ID, &a.Firstname, &a.Middlename, &a.Lastname}
+	return []interface{}{&a.ID, &a.Name}
 }

@@ -36,7 +36,11 @@ func main() {
 	defer s.CloseDB()
 
 	// inint store
-	s.Init()
+	if err := s.Init(); err != nil {
+		logger.Fatalf("error initilizing DB: %v", err)
+	}
+
+	s.MainSeed()
 
 	// create mux serve
 	router := mux.NewRouter()

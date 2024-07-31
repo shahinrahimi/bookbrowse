@@ -12,7 +12,7 @@ func (s *SqliteStore) GetBooks() ([]*book.Book, error) {
 	books := []*book.Book{}
 	for rows.Next() {
 		var b book.Book
-		if err := rows.Scan(&b); err != nil {
+		if err := rows.Scan(b.ToFeilds()...); err != nil {
 			s.logger.Printf("Error scranning rows for a book: %v", err)
 			continue
 		}
