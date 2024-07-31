@@ -1,4 +1,4 @@
-package author
+package models
 
 type Author struct {
 	ID   int    `json:"id"`
@@ -6,15 +6,15 @@ type Author struct {
 }
 
 const (
-	CreateTable string = `CREATE TABLE IF NOT EXISTS authors (
+	CreateTableAuthors string = `CREATE TABLE IF NOT EXISTS authors (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT UNIQUE NOT NULL
 	);`
-	SelectAll string = `SELECT id, name FROM authors`
-	Select    string = `SELECT id, name FROM authors WHERE id = ?`
-	Insert    string = `INSERT INTO authors (name) VALUES (?)`
-	Update    string = `UPDATE authors SET name = ? WHERE id = ?`
-	Delete    string = `DELETE FROM authors WHERE id = ?`
+	SelectAllAuthors string = `SELECT id, name FROM authors`
+	SelectAuthor     string = `SELECT id, name FROM authors WHERE id = ?`
+	InsertAuthor     string = `INSERT INTO authors (name) VALUES (?)`
+	UpdateAuthor     string = `UPDATE authors SET name = ? WHERE id = ?`
+	DeleteAuthor     string = `DELETE FROM authors WHERE id = ?`
 )
 
 // ToArgs returns name as value

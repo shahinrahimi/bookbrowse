@@ -3,7 +3,7 @@ build:
 run:build
 	@./bin/bookbrowse
 
-test_store:
-	@go test -v ./store/
+test_stores:
+	@go test -v ./stores/
 
-test: test_store
+test: test_stores

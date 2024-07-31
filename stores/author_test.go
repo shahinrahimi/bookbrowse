@@ -1,10 +1,10 @@
-package store
+package stores
 
 import (
 	"database/sql"
 	"testing"
 
-	"github.com/shahinrahimi/bookbrowse/pkg/author"
+	"github.com/shahinrahimi/bookbrowse/models"
 )
 
 func TestGetAuthor(t *testing.T) {
@@ -15,7 +15,7 @@ func TestGetAuthor(t *testing.T) {
 	}
 
 	// create test author
-	a := &author.Author{
+	a := &models.Author{
 		Name: "test",
 	}
 
@@ -43,7 +43,7 @@ func TestGetAuthors(t *testing.T) {
 	}
 
 	// create author
-	as := []*author.Author{
+	as := []*models.Author{
 		{
 			Name: "test1",
 		},
@@ -82,7 +82,7 @@ func TestUpdateAuthor(t *testing.T) {
 	}
 
 	// create test author
-	a := &author.Author{
+	a := &models.Author{
 		Name: "test",
 	}
 
@@ -117,7 +117,7 @@ func TestDeleteAuthor(t *testing.T) {
 	}
 
 	// create test author
-	a := &author.Author{
+	a := &models.Author{
 		Name: "test",
 	}
 

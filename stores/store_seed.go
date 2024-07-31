@@ -1,4 +1,4 @@
-package store
+package stores
 
 import (
 	"encoding/csv"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/shahinrahimi/bookbrowse/pkg/book"
+	"github.com/shahinrahimi/bookbrowse/models"
 )
 
 func (s *SqliteStore) MainSeed() {
@@ -154,7 +154,7 @@ func (s *SqliteStore) getUniqueAuthors(path string) []string {
 	return authors
 }
 
-func (s *SqliteStore) getBooks(path string) []*book.Book {
+func (s *SqliteStore) getBooks(path string) []*models.Book {
 	file, err := os.Open(path)
 	if err != nil {
 		s.logger.Printf("error opening the file: %v", err)
@@ -162,7 +162,7 @@ func (s *SqliteStore) getBooks(path string) []*book.Book {
 	defer file.Close()
 	reader := csv.NewReader(file)
 
-	var books []*book.Book
+	var books []*models.Book
 	for {
 		_, err := reader.Read()
 		if err != nil {

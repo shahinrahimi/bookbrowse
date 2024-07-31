@@ -1,4 +1,4 @@
-package genre
+package models
 
 type Genre struct {
 	ID   int    `json:"id"`
@@ -6,22 +6,22 @@ type Genre struct {
 }
 
 const (
-	CreateTable string = `CREATE TABLE IF NOT EXISTS genres (
+	CreateTableGenres string = `CREATE TABLE IF NOT EXISTS genres (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT UNIQUE NOT NULL
 	);`
-	CreateTableBookGenre string = `CREATE TABLE IF NOT EXISTS book_genres (
+	CreateTableBookGenres string = `CREATE TABLE IF NOT EXISTS book_genres (
             book_id INTEGER,
             genre_id INTEGER,
             PRIMARY KEY (book_id, genre_id),
             FOREIGN KEY (book_id) REFERENCES books(id),
             FOREIGN KEY (genre_id) REFERENCES genres(id)
         );`
-	SelectAll string = `SELECT id, name FROM genres`
-	Select    string = `SELECT id, name FROM genres WHERE id = ?`
-	Insert    string = `INSERT INTO genres (name) VALUES (?)`
-	Update    string = `UPDATE genres SET name = ? WHERE id = ?`
-	Delete    string = `DELETE FROM genres WHERE id = ?`
+	SelectAllGenres string = `SELECT id, name FROM genres`
+	SelectGenre     string = `SELECT id, name FROM genres WHERE id = ?`
+	InsertGenre     string = `INSERT INTO genres (name) VALUES (?)`
+	UpdateGenre     string = `UPDATE genres SET name = ? WHERE id = ?`
+	DeleteGenre     string = `DELETE FROM genres WHERE id = ?`
 )
 
 // ToArgs returns name as value

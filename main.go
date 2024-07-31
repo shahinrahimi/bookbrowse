@@ -11,10 +11,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	"github.com/shahinrahimi/bookbrowse/pkg/author"
-	"github.com/shahinrahimi/bookbrowse/pkg/book"
-	"github.com/shahinrahimi/bookbrowse/pkg/genre"
-	"github.com/shahinrahimi/bookbrowse/store"
+	"github.com/shahinrahimi/bookbrowse/handlers"
+	"github.com/shahinrahimi/bookbrowse/stores"
 )
 
 func main() {
@@ -32,7 +30,8 @@ func main() {
 	}
 
 	// create store
-	s := store.NewSqliteStore(logger)
+	// s := store.NewSqliteStore(logger)
+	s := stores.NewSqliteStore(logger)
 	defer s.CloseDB()
 
 	// inint store
@@ -40,59 +39,55 @@ func main() {
 		logger.Fatalf("error initilizing DB: %v", err)
 	}
 
-	s.MainSeed()
+	// s.MainSeed()
 
 	// create mux serve
 	router := mux.NewRouter()
 
-	// create book handler
-	bh := book.NewHandler(logger, s)
-	// create author handler
-	ah := author.NewHandler(logger, s)
-	// create genre handler
-	gh := genre.NewHandler(logger, s)
+	// create handler
+	h := handlers.NewHandler(logger, s)
 
 	// regiter book handler to router
 	router.Methods(http.MethodGet).Subrouter()
-	router.HandleFunc("/books", bh.GetAll)
-	router.HandleFunc("/books/{id}", bh.GetSingle)
+	router.HandleFunc("/books", h.GetAllBooks)
+	router.HandleFunc("/books/{id}", h.GetSingleBook)
 
 	router.Methods(http.MethodPost).Subrouter()
-	router.HandleFunc("/books", bh.Create)
+	router.HandleFunc("/books", h.PostBook)
 
 	router.Methods(http.MethodPut).Subrouter()
-	router.HandleFunc("/books/{id}", bh.Update)
+	router.HandleFunc("/books/{id}", h.PutBook)
 
 	router.Methods(http.MethodDelete).Subrouter()
-	router.HandleFunc("/books/{id}", bh.Delete)
+	router.HandleFunc("/books/{id}", h.DeleteBook)
 
 	// register author handler to router
 	router.Methods(http.MethodGet).Subrouter()
-	router.HandleFunc("/authors", ah.GetAll)
-	router.HandleFunc("/authors/{id}", ah.GetSingle)
+	router.HandleFunc("/authors", h.GetAllAuthors)
+	router.HandleFunc("/authors/{id}", h.GetSingleAuthor)
 
 	router.Methods(http.MethodPost).Subrouter()
-	router.HandleFunc("/authors", ah.Create)
+	router.HandleFunc("/authors", h.PostAuthor)
 
 	router.Methods(http.MethodPut).Subrouter()
-	router.HandleFunc("/authors/{id}", ah.Update)
+	router.HandleFunc("/authors/{id}", h.PutAuthor)
 
 	router.Methods(http.MethodDelete).Subrouter()
-	router.HandleFunc("/authors/{id}", ah.Delete)
+	router.HandleFunc("/authors/{id}", h.DeleteAuthor)
 
 	// register genre handler to router
 	router.Methods(http.MethodGet).Subrouter()
-	router.HandleFunc("/genres", gh.GetAll)
-	router.HandleFunc("/genres/{id}", gh.GetSingle)
+	router.HandleFunc("/genres", h.GetAllGenres)
+	router.HandleFunc("/genres/{id}", h.GetSingleGenre)
 
 	router.Methods(http.MethodPost).Subrouter()
-	router.HandleFunc("/genres", gh.Create)
+	router.HandleFunc("/genres", h.PostGenre)
 
 	router.Methods(http.MethodPut).Subrouter()
-	router.HandleFunc("/genres/{id}", gh.Update)
+	router.HandleFunc("/genres/{id}", h.PutGenre)
 
 	router.Methods(http.MethodDelete).Subrouter()
-	router.HandleFunc("/genres/{id}", gh.Delete)
+	router.HandleFunc("/genres/{id}", h.DeleteGenre)
 
 	// craete server
 	server := http.Server{

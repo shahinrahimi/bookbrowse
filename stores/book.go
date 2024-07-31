@@ -1,17 +1,17 @@
-package store
+package stores
 
-import "github.com/shahinrahimi/bookbrowse/pkg/book"
+import "github.com/shahinrahimi/bookbrowse/models"
 
-func (s *SqliteStore) GetBooks() ([]*book.Book, error) {
-	rows, err := s.db.Query(book.SelectAll)
+func (s *SqliteStore) GetBooks() ([]*models.Book, error) {
+	rows, err := s.db.Query(models.SelectAllBooks)
 	if err != nil {
 		s.logger.Printf("Error scranning rows for books: %v", err)
 		return nil, err
 	}
 	// initiate books as empty slice
-	books := []*book.Book{}
+	books := []*models.Book{}
 	for rows.Next() {
-		var b book.Book
+		var b models.Book
 		if err := rows.Scan(b.ToFeilds()...); err != nil {
 			s.logger.Printf("Error scranning rows for a book: %v", err)
 			continue
@@ -21,25 +21,25 @@ func (s *SqliteStore) GetBooks() ([]*book.Book, error) {
 	return books, nil
 }
 
-func (s *SqliteStore) GetBook(id int) (*book.Book, error) {
-	var b book.Book
-	if err := s.db.QueryRow(book.Select, id).Scan(b.ToFeilds()...); err != nil {
+func (s *SqliteStore) GetBook(id int) (*models.Book, error) {
+	var b models.Book
+	if err := s.db.QueryRow(models.SelectBook, id).Scan(b.ToFeilds()...); err != nil {
 		s.logger.Printf("Error scranning row for the book: %v", err)
 		return nil, err
 	}
 	return &b, nil
 }
 
-func (s *SqliteStore) CreateBook(b *book.Book) error {
-	if _, err := s.db.Exec(book.Insert, b.ToArgs()...); err != nil {
+func (s *SqliteStore) CreateBook(b *models.Book) error {
+	if _, err := s.db.Exec(models.InsertBook, b.ToArgs()...); err != nil {
 		s.logger.Printf("Error inserting a new book to DB: %v", err)
 		return err
 	}
 	return nil
 }
 
-func (s *SqliteStore) UpdateBook(id int, b *book.Book) error {
-	if _, err := s.db.Exec(book.Update, b.ToUpdatedArgs(id)...); err != nil {
+func (s *SqliteStore) UpdateBook(id int, b *models.Book) error {
+	if _, err := s.db.Exec(models.UpdateBook, b.ToUpdatedArgs(id)...); err != nil {
 		s.logger.Printf("Error updating book from DB: %v", err)
 		return err
 	}
@@ -47,7 +47,7 @@ func (s *SqliteStore) UpdateBook(id int, b *book.Book) error {
 }
 
 func (s *SqliteStore) DeleteBook(id int) error {
-	if _, err := s.db.Exec(book.Delete, id); err != nil {
+	if _, err := s.db.Exec(models.DeleteBook, id); err != nil {
 		s.logger.Printf("Error deleting book from DB: %v", err)
 		return err
 	}

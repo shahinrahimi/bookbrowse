@@ -1,4 +1,4 @@
-package store
+package stores
 
 import (
 	"database/sql"
@@ -6,10 +6,32 @@ import (
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/shahinrahimi/bookbrowse/pkg/author"
-	"github.com/shahinrahimi/bookbrowse/pkg/book"
-	"github.com/shahinrahimi/bookbrowse/pkg/genre"
+	"github.com/shahinrahimi/bookbrowse/models"
 )
+
+type Storage interface {
+	// books methods
+
+	GetBooks() ([]*models.Book, error)
+	GetBook(id int) (*models.Book, error)
+	CreateBook(b *models.Book) error
+	UpdateBook(id int, b *models.Book) error
+	DeleteBook(id int) error
+
+	// authors methods
+	GetAuthors() ([]*models.Author, error)
+	GetAuthor(id int) (*models.Author, error)
+	CreateAuthor(a *models.Author) error
+	UpdateAuthor(id int, a *models.Author) error
+	DeleteAuthor(id int) error
+
+	// genres methods
+	GetGenres() ([]*models.Genre, error)
+	GetGenre(id int) (*models.Genre, error)
+	CreateGenre(g *models.Genre) error
+	UpdateGenre(id int, g *models.Genre) error
+	DeleteGenre(id int) error
+}
 
 type SqliteStore struct {
 	logger *log.Logger
@@ -55,19 +77,19 @@ func NewTestSqliteStore(logger *log.Logger) *SqliteStore {
 // Init create tables for books, authors and genre if not exists
 // if error raised the function will panic
 func (s *SqliteStore) Init() error {
-	if _, err := s.db.Exec(book.CreateTable); err != nil {
+	if _, err := s.db.Exec(models.CreateTableBooks); err != nil {
 		s.logger.Printf("error creating books table: %v", err)
 		return err
 	}
-	if _, err := s.db.Exec(author.CreateTable); err != nil {
+	if _, err := s.db.Exec(models.CreateTableAuthors); err != nil {
 		s.logger.Printf("error creating authors table: %v", err)
 		return err
 	}
-	if _, err := s.db.Exec(genre.CreateTable); err != nil {
+	if _, err := s.db.Exec(models.CreateTableGenres); err != nil {
 		s.logger.Printf("error creating genres table: %v", err)
 		return err
 	}
-	if _, err := s.db.Exec(genre.CreateTableBookGenre); err != nil {
+	if _, err := s.db.Exec(models.CreateTableBookGenres); err != nil {
 		s.logger.Printf("error creating book_genres: %v", err)
 		return err
 	}

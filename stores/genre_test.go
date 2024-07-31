@@ -1,10 +1,10 @@
-package store
+package stores
 
 import (
 	"database/sql"
 	"testing"
 
-	"github.com/shahinrahimi/bookbrowse/pkg/genre"
+	"github.com/shahinrahimi/bookbrowse/models"
 )
 
 func TestGetGenre(t *testing.T) {
@@ -15,7 +15,7 @@ func TestGetGenre(t *testing.T) {
 	}
 
 	// create test genre
-	g := &genre.Genre{
+	g := &models.Genre{
 		Name: "test",
 	}
 
@@ -43,7 +43,7 @@ func TestGetGenres(t *testing.T) {
 	}
 
 	// create genre
-	gs := []*genre.Genre{
+	gs := []*models.Genre{
 		{
 			Name: "test1",
 		},
@@ -82,7 +82,7 @@ func TestUpdateGenre(t *testing.T) {
 	}
 
 	// create test genre
-	g := &genre.Genre{
+	g := &models.Genre{
 		Name: "test",
 	}
 
@@ -117,7 +117,7 @@ func TestDeleteGenre(t *testing.T) {
 	}
 
 	// create test genre
-	g := &genre.Genre{
+	g := &models.Genre{
 		Name: "test",
 	}
 
