@@ -2,14 +2,15 @@ package stores
 
 import "github.com/shahinrahimi/bookbrowse/models"
 
-func (s *SqliteStore) GetAuthors() ([]*models.Author, error) {
+func (s *SqliteStore) GetAuthors() (*models.Authors, error) {
 	rows, err := s.db.Query(models.SelectAllAuthors)
 	if err != nil {
 		s.logger.Printf("Error scranning rows for authors: %v", err)
 		return nil, err
 	}
+	defer rows.Close()
 	// initiate authors as empty slice
-	authors := []*models.Author{}
+	var authors models.Authors
 	for rows.Next() {
 		var a models.Author
 		if err := rows.Scan(a.ToFeilds()...); err != nil {
@@ -18,7 +19,12 @@ func (s *SqliteStore) GetAuthors() ([]*models.Author, error) {
 		}
 		authors = append(authors, &a)
 	}
-	return authors, nil
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		s.logger.Printf("Error encountered during row iteration: %v", err)
+		return nil, err
+	}
+	return &authors, nil
 }
 
 func (s *SqliteStore) GetAuthor(id int) (*models.Author, error) {

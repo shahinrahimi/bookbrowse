@@ -7,6 +7,26 @@ import (
 	"github.com/shahinrahimi/bookbrowse/models"
 )
 
+func TestGetEmptyGenres(t *testing.T) {
+	store := SetupTestStore()
+	defer store.CloseDB()
+	if err := store.Init(); err != nil {
+		t.Fatalf("error initilizing DB: %v", err)
+	}
+
+	// check genres lenght
+	fetchedGenres, err := store.GetGenres()
+	if err != nil {
+		t.Fatalf("failed to select all genres: %v", err)
+	}
+
+	// check genres length
+	if len(*fetchedGenres) != 0 {
+		t.Fatalf("expected genre length '%d', got '%d'", 0, len(*fetchedGenres))
+	}
+
+}
+
 func TestGetGenre(t *testing.T) {
 	store := SetupTestStore()
 	defer store.CloseDB()
@@ -69,8 +89,8 @@ func TestGetGenres(t *testing.T) {
 	}
 
 	// check genres length
-	if len(fetchedGenres) != len(gs) {
-		t.Fatalf("expected genre length '%d', got '%d'", len(gs), len(fetchedGenres))
+	if len(*fetchedGenres) != len(gs) {
+		t.Fatalf("expected genre length '%d', got '%d'", len(gs), len(*fetchedGenres))
 	}
 }
 

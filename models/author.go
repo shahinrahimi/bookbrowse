@@ -1,9 +1,13 @@
 package models
 
+import "strings"
+
 type Author struct {
 	ID   int    `json:"id"`
 	Name string `json:"name" validate:"required"`
 }
+
+type Authors []*Author
 
 type KeyAuthor struct{}
 
@@ -35,4 +39,31 @@ func (a *Author) ToUpdatedArgs(id int) []interface{} {
 // use for scanning from DB
 func (a *Author) ToFeilds() []interface{} {
 	return []interface{}{&a.ID, &a.Name}
+}
+
+// GetNames retunrs slice of strings that contains names
+func (as *Authors) GetNames() []string {
+	names := make([]string, len(*as))
+	for i, a := range *as {
+		names[i] = a.Name
+	}
+	return names
+}
+
+// GetID returns ID of author if found in the authors
+// if not found will return -1
+func (as *Authors) GetID(name string) int {
+	// make sure the name is caseinsensetiv and trimed space
+	cleanName := strings.TrimSpace(strings.ToLower(name))
+
+	for _, a := range *as {
+		if a.Name == cleanName {
+			return a.ID
+		}
+	}
+	return -1
+}
+
+func (as *Authors) Add(a *Author) {
+	*as = append(*as, a)
 }

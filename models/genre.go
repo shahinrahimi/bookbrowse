@@ -1,9 +1,13 @@
 package models
 
+import "strings"
+
 type Genre struct {
 	ID   int    `json:"id"`
 	Name string `json:"name" validate:"required"`
 }
+
+type Genres []*Genre
 
 type KeyGenre struct{}
 
@@ -42,4 +46,31 @@ func (g *Genre) ToUpdatedArgs(id int) []interface{} {
 // use for scanning from DB
 func (g *Genre) ToFeilds() []interface{} {
 	return []interface{}{&g.ID, &g.Name}
+}
+
+// GetNames retunrs slice of strings that contains names
+func (gs *Genres) GetNames() []string {
+	names := make([]string, len(*gs))
+	for i, g := range *gs {
+		names[i] = g.Name
+	}
+	return names
+}
+
+// GetID returns ID of genre if found in the genres
+// if not found will return -1
+func (gs *Genres) GetID(name string) int {
+	// make sure the name is caseinsensetiv and trimed space
+	cleanName := strings.TrimSpace(strings.ToLower(name))
+
+	for _, g := range *gs {
+		if g.Name == cleanName {
+			return g.ID
+		}
+	}
+	return -1
+}
+
+func (gs *Genres) Add(g *Genre) {
+	*gs = append(*gs, g)
 }

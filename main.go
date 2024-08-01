@@ -40,7 +40,7 @@ func main() {
 		logger.Fatalf("error initilizing DB: %v", err)
 	}
 
-	// s.MainSeed()
+	s.Seed()
 
 	// create mux serve
 	router := mux.NewRouter()

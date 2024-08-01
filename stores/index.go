@@ -12,21 +12,21 @@ import (
 type Storage interface {
 	// books methods
 
-	GetBooks() ([]*models.Book, error)
+	GetBooks() (*models.Books, error)
 	GetBook(id int) (*models.Book, error)
 	CreateBook(b *models.Book) error
 	UpdateBook(id int, b *models.Book) error
 	DeleteBook(id int) error
 
 	// authors methods
-	GetAuthors() ([]*models.Author, error)
+	GetAuthors() (*models.Authors, error)
 	GetAuthor(id int) (*models.Author, error)
 	CreateAuthor(a *models.Author) error
 	UpdateAuthor(id int, a *models.Author) error
 	DeleteAuthor(id int) error
 
 	// genres methods
-	GetGenres() ([]*models.Genre, error)
+	GetGenres() (*models.Genres, error)
 	GetGenre(id int) (*models.Genre, error)
 	CreateGenre(g *models.Genre) error
 	UpdateGenre(id int, g *models.Genre) error

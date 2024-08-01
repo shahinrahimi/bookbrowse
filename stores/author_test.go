@@ -7,6 +7,25 @@ import (
 	"github.com/shahinrahimi/bookbrowse/models"
 )
 
+func TestGetEmptyAuthors(t *testing.T) {
+	store := SetupTestStore()
+	defer store.CloseDB()
+	if err := store.Init(); err != nil {
+		t.Fatalf("error initilizing DB: %v", err)
+	}
+
+	fetchedAuthors, err := store.GetAuthors()
+	if err != nil {
+		t.Fatalf("failed to select all authors: %v", err)
+	}
+
+	// check if author updated
+	if len(*fetchedAuthors) != 0 {
+		t.Fatalf("expected authors length '%d', got '%d'", 0, len(*fetchedAuthors))
+	}
+
+}
+
 func TestGetAuthor(t *testing.T) {
 	store := SetupTestStore()
 	defer store.CloseDB()
@@ -69,8 +88,8 @@ func TestGetAuthors(t *testing.T) {
 	}
 
 	// check authors length
-	if len(fetchedAuthors) != len(as) {
-		t.Fatalf("expected author length '%d', got '%d'", len(as), len(fetchedAuthors))
+	if len(*fetchedAuthors) != len(as) {
+		t.Fatalf("expected author length '%d', got '%d'", len(as), len(*fetchedAuthors))
 	}
 }
 

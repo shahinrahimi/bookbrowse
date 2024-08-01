@@ -2,14 +2,15 @@ package stores
 
 import "github.com/shahinrahimi/bookbrowse/models"
 
-func (s *SqliteStore) GetBooks() ([]*models.Book, error) {
+func (s *SqliteStore) GetBooks() (*models.Books, error) {
 	rows, err := s.db.Query(models.SelectAllBooks)
 	if err != nil {
 		s.logger.Printf("Error scranning rows for books: %v", err)
 		return nil, err
 	}
-	// initiate books as empty slice
-	books := []*models.Book{}
+	defer rows.Close()
+
+	var books models.Books
 	for rows.Next() {
 		var b models.Book
 		if err := rows.Scan(b.ToFeilds()...); err != nil {
@@ -18,7 +19,14 @@ func (s *SqliteStore) GetBooks() ([]*models.Book, error) {
 		}
 		books = append(books, &b)
 	}
-	return books, nil
+
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		s.logger.Printf("Error encountered during row iteration: %v", err)
+		return nil, err
+	}
+
+	return &books, nil
 }
 
 func (s *SqliteStore) GetBook(id int) (*models.Book, error) {
