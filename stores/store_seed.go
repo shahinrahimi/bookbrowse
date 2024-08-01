@@ -11,7 +11,7 @@ import (
 )
 
 func (s *SqliteStore) Seed() {
-	path := "books.csv"
+	path := "./data/sample.csv"
 	s.createBooks(path)
 }
 
@@ -67,7 +67,7 @@ func (s *SqliteStore) createBooks(path string) {
 				var a models.Author
 				s.logger.Printf("Author name not found in DB: %s", authorName)
 				a.Name = strings.TrimSpace(strings.ToLower(authorName))
-				result, err := s.db.Exec(models.InsertAuthor, a.ToArgs()...)
+				result, err := s.db.Exec(models.INSERT_AUTHOR, a.ToArgs()...)
 				if err != nil {
 					s.logger.Fatalf("error inserting a new author: %v", err)
 				}
@@ -79,6 +79,7 @@ func (s *SqliteStore) createBooks(path string) {
 				a.ID = int(id)
 				s.logger.Printf("New author created: %s with ID: %d", authorName, a.ID)
 				authors.Add(&a)
+				authorID = a.ID
 			}
 			b.AuthorID = authorID
 
@@ -95,7 +96,7 @@ func (s *SqliteStore) createBooks(path string) {
 			}
 			b.RateCount = rateCount
 			b.Url = url
-			result, err := s.db.Exec(models.InsertBook, b.ToArgs()...)
+			result, err := s.db.Exec(models.INSERT_BOOK, b.ToArgs()...)
 			if err != nil {
 				s.logger.Fatalf("error inserting a new book: %v", err)
 			}
@@ -120,7 +121,7 @@ func (s *SqliteStore) createBooks(path string) {
 				if genreID < 0 {
 					s.logger.Printf("Genre name not found in DB: %s", genreName)
 					g.Name = cleanGenreName
-					result, err := s.db.Exec(models.InsertGenre, g.ToArgs()...)
+					result, err := s.db.Exec(models.INSERT_GENRE, g.ToArgs()...)
 					if err != nil {
 						s.logger.Fatalf("error inserting a new genre: %v", err)
 					}

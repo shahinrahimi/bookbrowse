@@ -10,13 +10,13 @@ type Book struct {
 	Title       string    `json:"title" validate:"required"`
 	Description string    `json:"description" validate:"required"`
 	RateScore   float32   `json:"rate_score" validate:"required, gt=0"`
-	RateCount   int       `json:"rate_count" valudate:"required, gt=0"`
+	RateCount   int       `json:"rate_count" validate:"required, gt=0"`
 	Url         string    `json:"url" validate:"required"`
 	CreatedAt   time.Time `json:"-"`
 	UpdatedAt   time.Time `json:"-"`
-	Author      Author    `json:"author"`
+	AuthorName  string    `json:"author_name"`
 	AuthorID    int       `json:"author_id" validate:"required"`
-	Geners      []Genre   `json:"genres"`
+	Geners      []string  `json:"genres"`
 }
 
 type Books []*Book
@@ -24,7 +24,7 @@ type Books []*Book
 type KeyBook struct{}
 
 const (
-	CreateTableBooks string = `CREATE TABLE IF NOT EXISTS books (
+	CREATE_TABLE_BOOKS string = `CREATE TABLE IF NOT EXISTS books (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		title TEXT UNIQUE NOT NULL,
 		description TEXT NOT NULL,
@@ -36,11 +36,12 @@ const (
 		author_id INTEGER,
 		FOREIGN KEY (author_id) REFERENCES authors(id)
 	);`
-	SelectAllBooks string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books`
-	SelectBook     string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books WHERE id = ?`
-	InsertBook     string = `INSERT INTO books (title, description, rate_score, rate_count, url, created_at, updated_at, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-	UpdateBook     string = `UPDATE books SET title = ?, description = ?, rate_score = ?, rate_count = ?, created_at, uptaded_at, author_id = ? WHERE id = ?`
-	DeleteBook     string = `DELETE FROM books WHERE id = ?`
+	SELECT_COUNT_BOOKS string = `SELECT COUNT(*) FROM books`
+	SELECT_BOOKS       string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books`
+	SELECT_BOOK        string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books WHERE id = ?`
+	INSERT_BOOK        string = `INSERT INTO books (title, description, rate_score, rate_count, url, created_at, updated_at, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+	UPDATE_BOOK        string = `UPDATE books SET title = ?, description = ?, rate_score = ?, rate_count = ?, created_at, uptaded_at, author_id = ? WHERE id = ?`
+	DELETE_BOOK        string = `DELETE FROM books WHERE id = ?`
 )
 
 // ToArgs returns title, description, rate_score, rate_count, url, created_at, updated_at, author_id as value

@@ -12,22 +12,24 @@ type Genres []*Genre
 type KeyGenre struct{}
 
 const (
-	CreateTableGenres string = `CREATE TABLE IF NOT EXISTS genres (
+	CREATE_TABLE_GENRES string = `CREATE TABLE IF NOT EXISTS genres (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT UNIQUE NOT NULL
 	);`
-	CreateTableBookGenres string = `CREATE TABLE IF NOT EXISTS book_genres (
+	CREATE_TABLE_BOOKGENRES string = `CREATE TABLE IF NOT EXISTS book_genres (
             book_id INTEGER,
             genre_id INTEGER,
             PRIMARY KEY (book_id, genre_id),
             FOREIGN KEY (book_id) REFERENCES books(id),
             FOREIGN KEY (genre_id) REFERENCES genres(id)
         );`
-	SelectAllGenres string = `SELECT id, name FROM genres`
-	SelectGenre     string = `SELECT id, name FROM genres WHERE id = ?`
-	InsertGenre     string = `INSERT INTO genres (name) VALUES (?)`
-	UpdateGenre     string = `UPDATE genres SET name = ? WHERE id = ?`
-	DeleteGenre     string = `DELETE FROM genres WHERE id = ?`
+	SELECT_COUNT_GENRES   string = `SELECT COUNT(*) FROM genres`
+	SELECT_GENRES         string = `SELECT id, name FROM genres`
+	SELECT_LIMITED_GENRES string = `SELECT id, name FROM genres LIMIT ? OFFSET ?`
+	SELECT_GENRE          string = `SELECT id, name FROM genres WHERE id = ?`
+	INSERT_GENRE          string = `INSERT INTO genres (name) VALUES (?)`
+	UPDATE_GENRE          string = `UPDATE genres SET name = ? WHERE id = ?`
+	DELETE_GENRE          string = `DELETE FROM genres WHERE id = ?`
 )
 
 // ToArgs returns name as value

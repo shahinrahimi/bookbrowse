@@ -11,22 +11,27 @@ import (
 
 type Storage interface {
 	// books methods
-
+	GetBooksCount() (int, error)
 	GetBooks() (*models.Books, error)
+	GetLimitedBooks(limit int, offset int) (*models.Books, error)
 	GetBook(id int) (*models.Book, error)
 	CreateBook(b *models.Book) error
 	UpdateBook(id int, b *models.Book) error
 	DeleteBook(id int) error
 
 	// authors methods
+	GetAuthorsCount() (int, error)
 	GetAuthors() (*models.Authors, error)
+	GetLimitedAuthors(limit int, offset int) (*models.Authors, error)
 	GetAuthor(id int) (*models.Author, error)
 	CreateAuthor(a *models.Author) error
 	UpdateAuthor(id int, a *models.Author) error
 	DeleteAuthor(id int) error
 
 	// genres methods
+	GetGenresCount() (int, error)
 	GetGenres() (*models.Genres, error)
+	GetLimitedGenres(limit int, offset int) (*models.Genres, error)
 	GetGenre(id int) (*models.Genre, error)
 	CreateGenre(g *models.Genre) error
 	UpdateGenre(id int, g *models.Genre) error
@@ -77,19 +82,19 @@ func NewTestSqliteStore(logger *log.Logger) *SqliteStore {
 // Init create tables for books, authors and genre if not exists
 // if error raised the function will panic
 func (s *SqliteStore) Init() error {
-	if _, err := s.db.Exec(models.CreateTableBooks); err != nil {
+	if _, err := s.db.Exec(models.CREATE_TABLE_BOOKS); err != nil {
 		s.logger.Printf("error creating books table: %v", err)
 		return err
 	}
-	if _, err := s.db.Exec(models.CreateTableAuthors); err != nil {
+	if _, err := s.db.Exec(models.CREATE_TABLE_AUTHORS); err != nil {
 		s.logger.Printf("error creating authors table: %v", err)
 		return err
 	}
-	if _, err := s.db.Exec(models.CreateTableGenres); err != nil {
+	if _, err := s.db.Exec(models.CREATE_TABLE_GENRES); err != nil {
 		s.logger.Printf("error creating genres table: %v", err)
 		return err
 	}
-	if _, err := s.db.Exec(models.CreateTableBookGenres); err != nil {
+	if _, err := s.db.Exec(models.CREATE_TABLE_BOOKGENRES); err != nil {
 		s.logger.Printf("error creating book_genres: %v", err)
 		return err
 	}

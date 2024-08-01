@@ -12,15 +12,17 @@ type Authors []*Author
 type KeyAuthor struct{}
 
 const (
-	CreateTableAuthors string = `CREATE TABLE IF NOT EXISTS authors (
+	CREATE_TABLE_AUTHORS string = `
+		CREATE TABLE IF NOT EXISTS authors (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		name TEXT UNIQUE NOT NULL
-	);`
-	SelectAllAuthors string = `SELECT id, name FROM authors`
-	SelectAuthor     string = `SELECT id, name FROM authors WHERE id = ?`
-	InsertAuthor     string = `INSERT INTO authors (name) VALUES (?)`
-	UpdateAuthor     string = `UPDATE authors SET name = ? WHERE id = ?`
-	DeleteAuthor     string = `DELETE FROM authors WHERE id = ?`
+		name TEXT UNIQUE NOT NULL);`
+	SELECT_COUNT_AUHTORS   string = `SELECT COUNT(*) FROM authors`
+	SELECT_AUTHORS         string = `SELECT id, name FROM authors`
+	SELECT_LIMITED_AUTHORS string = `SELECT id, name FROM authors LIMIT ? OFFSET ?`
+	SELECT_AUTHOR          string = `SELECT id, name FROM authors WHERE id = ?`
+	INSERT_AUTHOR          string = `INSERT INTO authors (name) VALUES (?)`
+	UPDATE_AUTHOR          string = `UPDATE authors SET name = ? WHERE id = ?`
+	DELETE_AUTHOR          string = `DELETE FROM authors WHERE id = ?`
 )
 
 // ToArgs returns name as value
