@@ -44,11 +44,16 @@ func main() {
 
 	// create mux serve
 	router := mux.NewRouter()
+	// create middlware
+	m := middlewares.NewMiddlware(logger)
+	// create limitrate middlware
+	rl := middlewares.NewRateLimiter(3, time.Minute)
+	router.Use(rl.Limit)
+	// add logger middleware
+	router.Use(m.Logger)
 
 	// create handler
 	h := handlers.NewHandler(logger, s)
-	// create middlware
-	m := middlewares.NewMiddlware(logger)
 
 	// regiter book handler to router
 	getb := router.Methods(http.MethodGet).Subrouter()

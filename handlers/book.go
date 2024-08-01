@@ -2,29 +2,16 @@ package handlers
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/shahinrahimi/bookbrowse/types"
 	"github.com/shahinrahimi/bookbrowse/utils"
 )
 
 func (h *Handler) GetAllBooks(rw http.ResponseWriter, r *http.Request) {
-	page := 1
-	limit := 100
-	// parse query parameters
-	if p := r.URL.Query().Get("page"); p != "" {
-		parsePage, err := strconv.Atoi(p)
-		if err == nil && parsePage > 0 {
-			page = parsePage
-		}
-	}
-	if l := r.URL.Query().Get("limit"); l != "" {
-		parsedLimit, err := strconv.Atoi(l)
-		if err == nil && parsedLimit > 0 {
-			limit = parsedLimit
-		}
-	}
 
+	// parse query parameters
+	page := utils.ParseQueryParamsPage(r)
+	limit := utils.ParseQueryParamsLimit(r)
 	offset := (page - 1) * limit
 
 	bs, err := h.store.GetLimitedBooks(limit, offset)
@@ -32,7 +19,26 @@ func (h *Handler) GetAllBooks(rw http.ResponseWriter, r *http.Request) {
 		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: "internal error"})
 		return
 	}
-	utils.WriteJSON(rw, http.StatusOK, bs)
+
+	count, err := h.store.GetBooksCount()
+	if err != nil {
+		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: "internal error"})
+		return
+	}
+
+	totalPages := (count + limit - 1) / limit
+
+	if page > totalPages {
+		utils.WriteJSON(rw, http.StatusNotFound, types.ApiError{Error: "Not Found"})
+		return
+	}
+
+	response := types.PaginatedBooksResponse{
+		Data:       *bs,
+		Page:       page,
+		TotolPages: totalPages,
+	}
+	utils.WriteJSON(rw, http.StatusOK, response)
 }
 
 func (h *Handler) GetSingleBook(rw http.ResponseWriter, r *http.Request) {
