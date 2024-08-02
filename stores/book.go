@@ -36,7 +36,7 @@ func (s *SqliteStore) GetBooks() (*models.Books, error) {
 			var g models.Genre
 			if err := genreRows.Scan(g.ToFeilds()...); err != nil {
 				s.logger.Printf("Error scranning rows for genres: %v", err)
-				return nil, err
+				continue
 			}
 			genres = append(genres, &g)
 		}
@@ -83,7 +83,7 @@ func (s *SqliteStore) GetLimitedBooks(limit int, offset int) (*models.Books, err
 			var g models.Genre
 			if err := genreRows.Scan(g.ToFeilds()...); err != nil {
 				s.logger.Printf("Error scranning rows for genres: %v", err)
-				return nil, err
+				continue
 			}
 			genres = append(genres, &g)
 		}
@@ -102,10 +102,32 @@ func (s *SqliteStore) GetLimitedBooks(limit int, offset int) (*models.Books, err
 
 func (s *SqliteStore) GetBook(id int) (*models.Book, error) {
 	var b models.Book
-	if err := s.db.QueryRow(models.SELECT_BOOK, id).Scan(b.ToFeilds()...); err != nil {
+	var a models.Author
+
+	if err := s.db.QueryRow(models.SELECT_BOOK_JOIN_AUTHOR, id).Scan(&b.ID, &b.Title, &b.Description, &b.RateScore, &b.RateCount, &b.Url, &a.ID, &a.Name); err != nil {
 		s.logger.Printf("Error scranning row for the book: %v", err)
 		return nil, err
 	}
+	b.AuthorName = a.Name
+	b.AuthorID = a.ID
+
+	genreRows, err := s.db.Query(models.SELECT_GENRES_JOIN_BOOKGENRES, b.ID)
+	if err != nil {
+		s.logger.Printf("Error scranning rows for genres: %v", err)
+		return nil, err
+	}
+	defer genreRows.Close()
+	var genres models.Genres
+	for genreRows.Next() {
+		var g models.Genre
+		if err := genreRows.Scan(g.ToFeilds()...); err != nil {
+			s.logger.Printf("Error scranning rows for genres: %v", err)
+			continue
+		}
+		genres = append(genres, &g)
+	}
+	b.Geners = genres.GetNames()
+
 	return &b, nil
 }
 

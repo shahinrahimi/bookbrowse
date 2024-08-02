@@ -17,15 +17,15 @@ type PaginatedAnyResponse struct {
 }
 
 type PaginatedAuthorsResponse struct {
-	Data        []models.Author `json:"data"`
-	Page        int             `json:"page"`
-	TotoalPages int             `json:"total_pages"`
+	Data       models.Authors `json:"data"`
+	Page       int            `json:"page"`
+	TotalPages int            `json:"total_pages"`
 }
 
 type PaginatedGenresResponse struct {
-	Data       []models.Genre `json:"data"`
-	Page       int            `json:"page"`
-	TotalPages int            `json:"total_pages"`
+	Data       models.Genres `json:"data"`
+	Page       int           `json:"page"`
+	TotalPages int           `json:"total_pages"`
 }
 
 type PaginatedBooksResponse struct {

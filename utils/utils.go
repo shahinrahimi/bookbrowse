@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 // WrireJSON write data as application/json to responseWriter
@@ -52,4 +54,13 @@ func ParseQueryParamsLimit(r *http.Request) int {
 	}
 	// return default value
 	return 10
+}
+
+// PrseIDVars return non zero negetive value
+func ParseIDVars(r *http.Request) int {
+	id, err := strconv.Atoi(mux.Vars(r)["id"])
+	if err != nil || id < 1 {
+		return -1
+	}
+	return id
 }

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/shahinrahimi/bookbrowse/types"
@@ -14,22 +15,24 @@ func (h *Handler) GetAllBooks(rw http.ResponseWriter, r *http.Request) {
 	limit := utils.ParseQueryParamsLimit(r)
 	offset := (page - 1) * limit
 
-	bs, err := h.store.GetLimitedBooks(limit, offset)
-	if err != nil {
-		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: "internal error"})
-		return
-	}
-
+	// count all books
 	count, err := h.store.GetBooksCount()
 	if err != nil {
-		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: "internal error"})
+		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: types.INTERNAL_ERROR})
+		return
+	}
+	// calculate totalpages
+	totalPages := (count + limit - 1) / limit
+
+	// check page
+	if page > totalPages {
+		utils.WriteJSON(rw, http.StatusNotFound, types.ApiError{Error: types.NOTFOUND_ERROR})
 		return
 	}
 
-	totalPages := (count + limit - 1) / limit
-
-	if page > totalPages {
-		utils.WriteJSON(rw, http.StatusNotFound, types.ApiError{Error: "Not Found"})
+	bs, err := h.store.GetLimitedBooks(limit, offset)
+	if err != nil {
+		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: types.INTERNAL_ERROR})
 		return
 	}
 
@@ -42,6 +45,23 @@ func (h *Handler) GetAllBooks(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) GetSingleBook(rw http.ResponseWriter, r *http.Request) {
+	id := utils.ParseIDVars(r)
+	if id < 1 {
+		utils.WriteJSON(rw, http.StatusBadRequest, types.ApiError{Error: "invalid id"})
+		return
+	}
+
+	b, err := h.store.GetBook(id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			utils.WriteJSON(rw, http.StatusNotFound, types.ApiError{Error: "not found"})
+			return
+		}
+		utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: "internal error"})
+		return
+	}
+
+	utils.WriteJSON(rw, http.StatusOK, b)
 
 }
 

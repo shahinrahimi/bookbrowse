@@ -40,17 +40,17 @@ func main() {
 		logger.Fatalf("error initilizing DB: %v", err)
 	}
 
-	s.Seed()
+	// s.Seed()
 
 	// create mux serve
 	router := mux.NewRouter()
 	// create middlware
 	m := middlewares.NewMiddlware(logger)
-	// create limitrate middlware
-	rl := middlewares.NewRateLimiter(3, time.Minute)
-	router.Use(rl.Limit)
 	// add logger middleware
 	router.Use(m.Logger)
+	// create limitrate middlware
+	// rl := middlewares.NewRateLimiter(100, time.Minute*60)
+	// router.Use(rl.Limit)
 
 	// create handler
 	h := handlers.NewHandler(logger, s)
