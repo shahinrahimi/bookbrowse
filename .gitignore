@@ -2,4 +2,5 @@ bin
 .env
 db
 data
+tmp
 goodreads_data.csv
