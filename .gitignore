@@ -3,4 +3,5 @@ bin
 db
 data
 tmp
+node_modules
 goodreads_data.csv
