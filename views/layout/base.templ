@@ -4,18 +4,37 @@ templ Base() {
 	<html lang="en" data-theme="dark">
 		<head>
 			<title>BOOK BROWSE</title>
+			<link rel="icon" type="image/x-icon" href="/public/favicon.ico"/>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="icon" type="image/x-icon" href="/public/favicon.ico"/>
 			<link rel="stylesheet" href="/public/styles.css"/>
 			// <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-			// <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			// <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.1/htmx.min.js" integrity="sha512-/POjPSnGjDaJfmt9O7LOTz1eGoCQNsVSJdgxYTVjhnWRDmuDFTvzwQrxIxipRrakLw7IYJfOsanDe7WuP40zxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			// fonts
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 			<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+			<script>
+				function getAuthors() {
+					fetch('http://127.0.0.1:7331/api/authors/1').then(res => res.json()).then(data => console.log(data))
+				}
+				
+				getAuthors()
+				$(document).ready(function() {
+					console.log("document is ready")
+					$("#try_example").click(async function() {
+					console.log("ckicked")
+					const res = await fetch('http://127.0.0.1:7331/api/books/1')
+					const data = await res.json()
+					const prettyJson = JSON.stringify(data, null, 2).replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
+
+					$("#example").html(`<pre>${prettyJson}</pre>`)
+				})
+				})
+				
+			</script>
 		</head>
 		<body class="flex flex-col min-h-[100dvh] bg-background overflow-x-hidden w-full">
 			{ children... }

@@ -1,0 +1,1 @@
+<div class=\"flex flex-col items-start\"><h3 class=\"text-lg capitalize text-foreground\">exmaple code</h3><div class=\"\">fetch('localhost:7000/api/authors/1') .then(res => res.json()) .then(json => console.log(json))</div><button id=\"try_example\" class=\"text-lg p-5 capitalize bg-foreground text-white\">try it</button><div id=\"example\" class=\"\"></div></div>

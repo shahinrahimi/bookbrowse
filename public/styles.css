@@ -727,6 +727,10 @@ h1,
   flex-direction: column;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
 .items-center {
   align-items: center;
 }
@@ -846,6 +850,10 @@ h1,
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
 
+.bg-foreground {
+  background-color: var(--foreground);
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -862,6 +870,10 @@ h1,
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
 }
 
 .px-3 {
@@ -928,6 +940,11 @@ h1,
   line-height: 1rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -950,6 +967,15 @@ h1,
 
 .text-primary-foreground {
   color: var(--primary-foreground);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .underline-offset-4 {
