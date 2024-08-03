@@ -53,7 +53,7 @@ func main() {
 	// router.Use(rl.Limit)
 
 	// Serve static files
-	router.PathPrefix("/public/").Handler(staticFileHandler())
+	router.PathPrefix("/public/").Handler(public())
 
 	// create view handler
 	vh := handlers.NewViewHandler(logger)
