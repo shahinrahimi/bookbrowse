@@ -1,9 +1,6 @@
 package home
 
-import (
-	"github.com/shahinrahimi/bookbrowse/views/components"
-	"github.com/shahinrahimi/bookbrowse/views/layout"
-)
+import "github.com/shahinrahimi/bookbrowse/views/layout"
 
 templ Index() {
 	@layout.Base() {
@@ -21,34 +18,35 @@ templ Content() {
 					<div class="flex flex-col justify-center space-y-4">
 						<div class="space-y-2">
 							<h1 class="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-								Unlock the Power of Books with Our Free API
+								Free Book API
 							</h1>
 							<p class="max-w-[600px] text-muted-foreground md:text-xl">
-								Integrate our comprehensive book data into your applications and unlock a world of literary
-								possibilities.hensive book data into your applications and unlock a world of literary
+								Free book REST API consist of 10000 best books of all time, consist of title, description, author, book ratting and much more.
 							</p>
 						</div>
 						<div class="flex flex-col gap-2 min-[400px]:flex-row">
 							<a
-								href="#"
-								class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+								href="https://github.com/shahinrahimi/bookbrowse"
+								class="inline-flex h-10 items-center justify-center gap-4 rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 							>
-								Sign Up for Free
+								View on Github
+								<img src="/public/github.svg" alt="github"/>
 							</a>
 							<a
-								href="#"
-								class="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+								href="/docs"
+								class="inline-flex h-10 items-center justify-center gap-4 rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 							>
 								View Documentation
+								<img src="/public/doc.svg" alt="doc"/>
 							</a>
 						</div>
 					</div>
 					<img
-						src="/placeholder.svg"
-						width="550"
+						src="/public/hero.svg"
+						width="750"
 						height="550"
 						alt="Hero"
-						class="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
+						class="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square border-2"
 					/>
 				</div>
 			</div>
@@ -58,11 +56,9 @@ templ Content() {
 				<div class="flex flex-col items-center justify-center space-y-4 text-center">
 					<div class="space-y-2">
 						<div class="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Key Features</div>
-						<h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">Unlock the Power of Books</h2>
+						<h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">Easy Access to Best Books</h2>
 						<p class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-							Our free book API provides comprehensive data on millions of books, including titles, authors,
-							descriptions, ratings, and more. Integrate it into your applications to enhance your users' reading
-							experience.
+							BookBrowse is a free online REST API that you can use whenever you need real data for your bookstore or e-commerce shopping website without running any server-side code. It's awesome for teaching purposes, sample codes, tests, etc.
 						</p>
 					</div>
 				</div>
@@ -73,8 +69,7 @@ templ Content() {
 								<div class="grid gap-1">
 									<h3 class="text-xl font-bold">Comprehensive Data</h3>
 									<p class="text-muted-foreground">
-										Access detailed information on millions of books, including titles, authors, descriptions,
-										ratings, and more.
+										Access detailed information on thousends of books, including titles, authors, descriptions, genrese ratings, and more.
 									</p>
 								</div>
 							</li>
@@ -89,17 +84,16 @@ templ Content() {
 							</li>
 							<li>
 								<div class="grid gap-1">
-									<h3 class="text-xl font-bold">Powerful Searching</h3>
+									<h3 class="text-xl font-bold">Powerful Query</h3>
 									<p class="text-muted-foreground">
-										Leverage our advanced search capabilities to help your users find the perfect books for their
-										needs.
+										Get Books Data base on you preference, Authors, Genres, Paginated data.
 									</p>
 								</div>
 							</li>
 						</ul>
 					</div>
 					<img
-						src="/placeholder.svg"
+						src="/public/placeholder.svg"
 						width="550"
 						height="310"
 						alt="Features"
@@ -109,46 +103,49 @@ templ Content() {
 				</div>
 			</div>
 		</section>
-		@components.Example()
-		// <section class="w-full py-12 md:py-24 lg:py-32">
-		// 	<div class="container px-6 md:px-8 lg:px-10">
-		// 		<div class="flex flex-col items-center justify-center space-y-4 text-center">
-		// 			<div class="space-y-2">
-		// 				<div class="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Example Code</div>
-		// 				<h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">Explore Our API in Action</h2>
-		// 				<p class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-		// 					Check out these sample code snippets to see how you can integrate our free book API into your
-		// 					applications.how you can
-		// 				</p>
-		// 			</div>
-		// 		</div>
-		// 		<div class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-		// 			<div class="flex flex-col justify-center space-y-4">
-		// 				<div class="rounded-lg bg-muted p-6">
-		// 					<pre class="text-sm text-muted-foreground">
-		// 						<code>
-		// 							const api = new BookAPI('your-api-key'); // Search for books by title const books = await
-		// 							api.searchBooks('To Kill a Mockingbird'); // Get details for a specific book const book = await
-		// 							api.getBookById('123456789'); // Fetch a list of popular books const popularBooks = await
-		// 							api.getPopularBooks();
-		// 						</code>
-		// 					</pre>
-		// 				</div>
-		// 			</div>
-		// 			<div class="flex flex-col justify-center space-y-4">
-		// 				<div class="rounded-lg bg-muted p-6">
-		// 					<pre class="text-sm text-muted-foreground">
-		// 						<code>
-		// 							const api = new BookAPI('your-api-key'); // Fetch book recommendations based on a user's reading
-		// 							history const recommendations = await api.getRecommendations('user-123'); // Get the latest book
-		// 							releases const newReleases = await api.getNewReleases(); // Fetch book reviews and ratings const
-		// 							reviews = await api.getBookReviews('123456789');
-		// 						</code>
-		// 					</pre>
-		// 				</div>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-		// </section>
+		<section class="w-full py-12 md:py-24 lg:py-32">
+			<div class="container px-6 md:px-8 lg:px-10">
+				<div class="flex flex-col items-center justify-center space-y-4 text-center">
+					<div class="space-y-2">
+						<div class="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Example Code</div>
+						<h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">Explore API in Action</h2>
+						<p class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+							Check out these sample code snippets to see how you can integrate our free book API into your
+							applications.
+						</p>
+					</div>
+				</div>
+				<div class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:gap-12">
+					<div class="flex flex-col justify-center space-y-4">
+						<div class="rounded-lg bg-muted p-6">
+							<pre class="text-sm text-muted-foreground">
+								<code>
+									fetch('localhost:7000/api/authors/1')
+									<br/>
+									.then(res => res.json())
+									<br/>
+									.then(json => console.log(json))
+								</code>
+							</pre>
+						</div>
+					</div>
+				</div>
+				<button
+					id="run_example"
+					class="inline-flex h-10 items-center justify-center gap-4 rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+				>
+					Try it
+				</button>
+				<div class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:gap-12">
+					<div class="flex flex-col justify-center space-y-4">
+						<div class="rounded-lg bg-muted p-6">
+							<pre class="text-sm text-muted-foreground">
+								<code id="example_result"></code>
+							</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</main>
 }

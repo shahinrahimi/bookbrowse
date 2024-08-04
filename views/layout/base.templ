@@ -17,21 +17,14 @@ templ Base() {
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 			<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
 			<script>
-				function getAuthors() {
-					fetch('http://127.0.0.1:7331/api/authors/1').then(res => res.json()).then(data => console.log(data))
-				}
-				
-				getAuthors()
-				$(document).ready(function() {
-					console.log("document is ready")
-					$("#try_example").click(async function() {
-					console.log("ckicked")
+				async function runExample() {
 					const res = await fetch('http://127.0.0.1:7331/api/books/1')
 					const data = await res.json()
 					const prettyJson = JSON.stringify(data, null, 2).replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
-
-					$("#example").html(`<pre>${prettyJson}</pre>`)
-				})
+					$("#example_result").html(`<pre>${prettyJson}</pre>`)
+				}
+				$(document).ready(function() {
+					$("#run_example").click(() => runExample())
 				})
 				
 			</script>
