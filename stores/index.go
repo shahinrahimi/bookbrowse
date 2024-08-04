@@ -12,8 +12,14 @@ import (
 type Storage interface {
 	// books methods
 	GetBooksCount() (int, error)
+	GetBooksCountWithAuthorID(authorID int) (int, error)
+	GetBooksCountWithGenreID(genreID int) (int, error)
 	GetBooks() (*models.Books, error)
 	GetLimitedBooks(limit int, offset int) (*models.Books, error)
+	GetBooksByAuthorID(authorID int) (*models.Books, error)
+	GetLimitedBooksByAuthorID(authorID int, limit int, offset int) (*models.Books, error)
+	GetBooksByGenreID(genreID int) (*models.Books, error)
+	GetLimitedBooksByGenreID(authorID int, limit int, offset int) (*models.Books, error)
 	GetBook(id int) (*models.Book, error)
 	CreateBook(b *models.Book) error
 	UpdateBook(id int, b *models.Book) error

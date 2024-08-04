@@ -36,12 +36,13 @@ const (
 		author_id INTEGER,
 		FOREIGN KEY (author_id) REFERENCES authors(id)
 	);`
-	SELECT_COUNT_BOOKS string = `SELECT COUNT(*) FROM books`
-	SELECT_BOOKS       string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books`
-	SELECT_BOOK        string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books WHERE id = ?`
-	INSERT_BOOK        string = `INSERT INTO books (title, description, rate_score, rate_count, url, created_at, updated_at, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-	UPDATE_BOOK        string = `UPDATE books SET title = ?, description = ?, rate_score = ?, rate_count = ?, created_at, uptaded_at, author_id = ? WHERE id = ?`
-	DELETE_BOOK        string = `DELETE FROM books WHERE id = ?`
+	SELECT_COUNT_BOOKS               string = `SELECT COUNT(*) FROM books`
+	SELECT_COUNT_BOOKS_WITH_AUTHORID string = `SELECT COUNT(*) FROM books WHERE author_id = ?`
+	SELECT_BOOKS                     string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books`
+	SELECT_BOOK                      string = `SELECT id, title, description, rate_score, rate_count, url, created_at, updated_at, author_id FROM books WHERE id = ?`
+	INSERT_BOOK                      string = `INSERT INTO books (title, description, rate_score, rate_count, url, created_at, updated_at, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+	UPDATE_BOOK                      string = `UPDATE books SET title = ?, description = ?, rate_score = ?, rate_count = ?, created_at, uptaded_at, author_id = ? WHERE id = ?`
+	DELETE_BOOK                      string = `DELETE FROM books WHERE id = ?`
 )
 
 // ToArgs returns title, description, rate_score, rate_count, url, created_at, updated_at, author_id as value

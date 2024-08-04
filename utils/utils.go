@@ -56,6 +56,32 @@ func ParseQueryParamsLimit(r *http.Request) int {
 	return 10
 }
 
+// ParseQueryParamsAuthorID parse request and return author_id
+// if error or not any params defined it will return default 0 that means all authors
+func ParseQueryParamsAuthorID(r *http.Request) int {
+	if p := r.URL.Query().Get("author_id"); p != "" {
+		parsed, err := strconv.Atoi(p)
+		if err == nil && parsed > 0 {
+			return parsed
+		}
+	}
+	// return default value means all authors
+	return 0
+}
+
+// ParseQueryParamsGenreID parse request and return genre_id
+// if error or not any params defined it will return default 0 that means all genres
+func ParseQueryParamsGenreID(r *http.Request) int {
+	if p := r.URL.Query().Get("genre_id"); p != "" {
+		parsed, err := strconv.Atoi(p)
+		if err == nil && parsed > 0 {
+			return parsed
+		}
+	}
+	// return default value means all authors
+	return 0
+}
+
 // PrseIDVars return non zero negetive value
 func ParseIDVars(r *http.Request) int {
 	id, err := strconv.Atoi(mux.Vars(r)["id"])

@@ -100,6 +100,186 @@ func (s *SqliteStore) GetLimitedBooks(limit int, offset int) (*models.Books, err
 	return &books, nil
 }
 
+func (s *SqliteStore) GetBooksByAuthorID(authorID int) (*models.Books, error) {
+	rows, err := s.db.Query(models.SELECT_BOOKS_BY_AUTHORID_JOIN_AUTHOR, authorID)
+	if err != nil {
+		s.logger.Printf("Error scranning rows for books: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+	var books models.Books
+	for rows.Next() {
+		var b models.Book
+		var a models.Author
+		if err := rows.Scan(&b.ID, &b.Title, &b.Description, &b.RateScore, &b.RateCount, &b.Url, &a.ID, &a.Name); err != nil {
+			s.logger.Printf("Error scranning rows for a book: %v", err)
+			return nil, err
+		}
+		b.AuthorName = a.Name
+		b.AuthorID = a.ID
+		// get genres
+		genreRows, err := s.db.Query(models.SELECT_GENRES_JOIN_BOOKGENRES, b.ID)
+		if err != nil {
+			s.logger.Printf("Error scranning rows for genres: %v", err)
+			return nil, err
+		}
+		defer genreRows.Close()
+		var genres models.Genres
+		for genreRows.Next() {
+			var g models.Genre
+			if err := genreRows.Scan(g.ToFeilds()...); err != nil {
+				s.logger.Printf("Error scranning rows for genres: %v", err)
+				continue
+			}
+			genres = append(genres, &g)
+		}
+		b.Geners = genres.GetNames()
+		books = append(books, &b)
+	}
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		s.logger.Printf("Error encountered during row iteration: %v", err)
+		return nil, err
+	}
+
+	return &books, nil
+}
+
+func (s *SqliteStore) GetLimitedBooksByAuthorID(authorID int, limit int, offset int) (*models.Books, error) {
+	rows, err := s.db.Query(models.SELECT_LIMITEDBOOKS_BY_AUTHORID_JOIN_AUTHOR, authorID, limit, offset)
+	if err != nil {
+		s.logger.Printf("Error scranning rows for books: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+	var books models.Books
+	for rows.Next() {
+		var b models.Book
+		var a models.Author
+		if err := rows.Scan(&b.ID, &b.Title, &b.Description, &b.RateScore, &b.RateCount, &b.Url, &a.ID, &a.Name); err != nil {
+			s.logger.Printf("Error scranning rows for a book: %v", err)
+			return nil, err
+		}
+		b.AuthorName = a.Name
+		b.AuthorID = a.ID
+		// get genres
+		genreRows, err := s.db.Query(models.SELECT_GENRES_JOIN_BOOKGENRES, b.ID)
+		if err != nil {
+			s.logger.Printf("Error scranning rows for genres: %v", err)
+			return nil, err
+		}
+		defer genreRows.Close()
+		var genres models.Genres
+		for genreRows.Next() {
+			var g models.Genre
+			if err := genreRows.Scan(g.ToFeilds()...); err != nil {
+				s.logger.Printf("Error scranning rows for genres: %v", err)
+				continue
+			}
+			genres = append(genres, &g)
+		}
+		b.Geners = genres.GetNames()
+		books = append(books, &b)
+	}
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		s.logger.Printf("Error encountered during row iteration: %v", err)
+		return nil, err
+	}
+
+	return &books, nil
+}
+
+func (s *SqliteStore) GetBooksByGenreID(genreID int) (*models.Books, error) {
+	rows, err := s.db.Query(models.SELECT_BOOKS_BY_GENREID_JOIN_AUTHOR, genreID)
+	if err != nil {
+		s.logger.Printf("Error scranning rows for books: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+	var books models.Books
+	for rows.Next() {
+		var b models.Book
+		var a models.Author
+		if err := rows.Scan(&b.ID, &b.Title, &b.Description, &b.RateScore, &b.RateCount, &b.Url, &a.ID, &a.Name); err != nil {
+			s.logger.Printf("Error scranning rows for a book: %v", err)
+			return nil, err
+		}
+		b.AuthorName = a.Name
+		b.AuthorID = a.ID
+		// get genres
+		genreRows, err := s.db.Query(models.SELECT_GENRES_JOIN_BOOKGENRES, b.ID)
+		if err != nil {
+			s.logger.Printf("Error scranning rows for genres: %v", err)
+			return nil, err
+		}
+		defer genreRows.Close()
+		var genres models.Genres
+		for genreRows.Next() {
+			var g models.Genre
+			if err := genreRows.Scan(g.ToFeilds()...); err != nil {
+				s.logger.Printf("Error scranning rows for genres: %v", err)
+				continue
+			}
+			genres = append(genres, &g)
+		}
+		b.Geners = genres.GetNames()
+		books = append(books, &b)
+	}
+
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		s.logger.Printf("Error encountered during row iteration: %v", err)
+		return nil, err
+	}
+	return &books, nil
+}
+
+func (s *SqliteStore) GetLimitedBooksByGenreID(genreID int, limit int, offset int) (*models.Books, error) {
+	rows, err := s.db.Query(models.SELECT_LIMITEDBOOKS_BY_GENREID_JOIN_AUTHOR, genreID, limit, offset)
+	if err != nil {
+		s.logger.Printf("Error scranning rows for books: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+	var books models.Books
+	for rows.Next() {
+		var b models.Book
+		var a models.Author
+		if err := rows.Scan(&b.ID, &b.Title, &b.Description, &b.RateScore, &b.RateCount, &b.Url, &a.ID, &a.Name); err != nil {
+			s.logger.Printf("Error scranning rows for a book: %v", err)
+			return nil, err
+		}
+		b.AuthorName = a.Name
+		b.AuthorID = a.ID
+		// get genres
+		genreRows, err := s.db.Query(models.SELECT_GENRES_JOIN_BOOKGENRES, b.ID)
+		if err != nil {
+			s.logger.Printf("Error scranning rows for genres: %v", err)
+			return nil, err
+		}
+		defer genreRows.Close()
+		var genres models.Genres
+		for genreRows.Next() {
+			var g models.Genre
+			if err := genreRows.Scan(g.ToFeilds()...); err != nil {
+				s.logger.Printf("Error scranning rows for genres: %v", err)
+				continue
+			}
+			genres = append(genres, &g)
+		}
+		b.Geners = genres.GetNames()
+		books = append(books, &b)
+	}
+
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		s.logger.Printf("Error encountered during row iteration: %v", err)
+		return nil, err
+	}
+	return &books, nil
+}
+
 func (s *SqliteStore) GetBook(id int) (*models.Book, error) {
 	var b models.Book
 	var a models.Author
@@ -158,6 +338,30 @@ func (s *SqliteStore) DeleteBook(id int) error {
 func (s *SqliteStore) GetBooksCount() (int, error) {
 	var count int
 	if err := s.db.QueryRow(models.SELECT_COUNT_BOOKS).Scan(&count); err != nil {
+		if err == sql.ErrNoRows {
+			return 0, nil
+		}
+		s.logger.Printf("error selecting count from books: %v", err)
+		return -1, err
+	}
+	return count, nil
+}
+
+func (s *SqliteStore) GetBooksCountWithAuthorID(authorID int) (int, error) {
+	var count int
+	if err := s.db.QueryRow(models.SELECT_COUNT_BOOKS_WITH_AUTHORID, authorID).Scan(&count); err != nil {
+		if err == sql.ErrNoRows {
+			return 0, nil
+		}
+		s.logger.Printf("error selecting count from books: %v", err)
+		return -1, err
+	}
+	return count, nil
+}
+
+func (s *SqliteStore) GetBooksCountWithGenreID(genreID int) (int, error) {
+	var count int
+	if err := s.db.QueryRow(models.SELECT_COUNT_BOOKS_WITH_GENREID, genreID).Scan(&count); err != nil {
 		if err == sql.ErrNoRows {
 			return 0, nil
 		}

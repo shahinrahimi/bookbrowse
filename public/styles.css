@@ -727,10 +727,6 @@ h1,
   flex-direction: column;
 }
 
-.items-start {
-  align-items: flex-start;
-}
-
 .items-center {
   align-items: center;
 }
@@ -747,10 +743,6 @@ h1,
   gap: 0.25rem;
 }
 
-.gap-12 {
-  gap: 3rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
 }
@@ -761,14 +753,6 @@ h1,
 
 .gap-6 {
   gap: 1.5rem;
-}
-
-.gap-16 {
-  gap: 4rem;
-}
-
-.gap-14 {
-  gap: 3.5rem;
 }
 
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
@@ -819,10 +803,6 @@ h1,
   border-color: var(--input);
 }
 
-.border-border {
-  border-color: var(--border);
-}
-
 .bg-background {
   background-color: var(--background);
 }
@@ -838,20 +818,6 @@ h1,
 
 .bg-primary {
   background-color: var(--primary);
-}
-
-.bg-red-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
-}
-
-.bg-red-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-}
-
-.bg-foreground {
-  background-color: var(--foreground);
 }
 
 .object-cover {
@@ -870,10 +836,6 @@ h1,
 
 .p-6 {
   padding: 1.5rem;
-}
-
-.p-5 {
-  padding: 1.25rem;
 }
 
 .px-3 {
@@ -940,11 +902,6 @@ h1,
   line-height: 1rem;
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
 .font-bold {
   font-weight: 700;
 }
@@ -969,15 +926,6 @@ h1,
   color: var(--primary-foreground);
 }
 
-.text-foreground {
-  color: var(--foreground);
-}
-
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
@@ -996,12 +944,6 @@ h1,
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
 }
 
 .transition-colors {
@@ -1064,20 +1006,12 @@ h1,
     flex-direction: row;
   }
 
-  .sm\:gap-6 {
-    gap: 1.5rem;
-  }
-
-  .sm\:gap-2 {
-    gap: 0.5rem;
-  }
-
-  .sm\:gap-8 {
-    gap: 2rem;
-  }
-
   .sm\:gap-10 {
     gap: 2.5rem;
+  }
+
+  .sm\:gap-6 {
+    gap: 1.5rem;
   }
 
   .sm\:text-5xl {

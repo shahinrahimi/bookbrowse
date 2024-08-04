@@ -14,8 +14,13 @@ func (m *Middleware) ValidateAuthor(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		var a models.Author
 		if err := utils.FromJSON(&a, r.Body); err != nil {
+			// handle empty request
+			if err.Error() == "EOF" {
+				utils.WriteJSON(rw, http.StatusBadRequest, types.ApiError{Error: "empty request body"})
+				return
+			}
 			m.logger.Println("error deserializing author", err)
-			utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: "internal error"})
+			utils.WriteJSON(rw, http.StatusInternalServerError, types.ApiError{Error: types.INTERNAL_ERROR})
 			return
 		}
 		// validate author
